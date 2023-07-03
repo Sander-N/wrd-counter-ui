@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .app {
     text-align: center;
     background: url(background.jpg);
@@ -19,8 +23,9 @@
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-.hidden {
-    display: none;
+.description {
+    font-size: small;
+    color: rgba(71, 71, 71, 0.6);
 }
 
 .file-area {
@@ -31,38 +36,44 @@
     border-radius: 2em;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     box-shadow: 0 8px 8px -4px gray;
 }
 
 #file-input-label {
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 2.5em;
-    width: 10em;
     cursor: pointer;
-    border: 2px solid #e69500;
     border-radius: 2em;
-    margin-bottom: 2em;
 }
 
-#file-input-label:hover {
-    background-color: #e69500;
-}
-
-#file-drop-area {
+#file-upload-form {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 10em;
     width: 30em;
-    border: 2px dashed #e69500;
     border-radius: 2em;
 }
 
-#file-drop-area:hover {
-    border: 2px solid #e69500;
+#file-upload-form:hover {
     background-color: #ffb52e;
+}
+
+.drag-active {
+    background-color: #e69500;
+    border: 2px solid #e69500;
+}
+
+.file-added {
+    background-color: #ffb52e;
+    border: 2px solid #e69500;
+}
+
+.file-not-added {
+    border: 2px dashed #e69500;
 }
