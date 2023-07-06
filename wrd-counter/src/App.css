@@ -41,6 +41,15 @@
     box-shadow: 0 8px 8px -4px gray;
 }
 
+#file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 15em;
+    width: 30em;
+}
+
 #file-input-label {
     height: 100%;
     width: 100%;
@@ -62,6 +71,17 @@
 
 #file-upload-form:hover {
     background-color: #ffb52e;
+}
+
+#file-submit-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3em;
+    width: 10em;
+    background-color: #ffb52e;
+    border: 2px solid #e69500;
+    border-radius: 1em;
 }
 
 .drag-active {
