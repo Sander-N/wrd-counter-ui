@@ -1,15 +1,16 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import '../styles/FileArea.css'
 
-function FileManager() {
+function FileManager(props) {
     const [dragActive, setDragActive] = React.useState(false);
     const [fileAdded, setFileAdded] = React.useState(false);
     const [fileName, setFileName] = React.useState("");
     const [file, setFile] = React.useState();
-    const [uuid, setUuid] = React.useState(uuidv4());
+    const [fileSubmitted, setFileSubmitted] = React.useState(false);
 
     const inputRef = React.useRef(null);
 
+    //Function for handling drag events
     const handleDrag = function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -49,9 +50,6 @@ function FileManager() {
     const handleChange = function(e) {
         e.preventDefault();
 
-        if(uuid == null) setUuid(uuidv4());
-        console.log(uuid);
-
         //Check if there are any files present after drop
         //If files are present then check that only one file was added and that it is a plain-text file
         if(e.target.files && e.target.files[0]) {
@@ -83,23 +81,37 @@ function FileManager() {
             let formData = new FormData();
             formData.append("file", file);
             
-            fetch("http://localhost:9000/upload/" + uuid, {
+            fetch("http://localhost:9000/upload/" + props.uuid, {
                 method: "POST",
                 body: formData,
             })
             .then((res) => console.log(res))
             .then((data) => console.log(data))
             .catch((err) => console.error(err));
+
+            setFileSubmitted(true);
         }
     }
 
     return (
         <div id="file-upload-wrapper">
+            <div>
+                <div>Add the plain-text file you wish to process below</div>
+            </div>
+
             <form id="file-upload-form" onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className={fileAdded ? "file-added" : (dragActive ? "drag-active" : "file-not-added")}>
                 <input ref={inputRef} className="hidden" id="file-input" type="file" onChange={handleChange} multiple={false} accept=".txt"/>
                 <label id="file-input-label" htmlFor="file-input">
                     <div>
-                        {fileAdded ? (<p>{fileName}</p>) : (<p>Drag and drop your file here or click to add</p>)}
+                        {fileAdded ? 
+                        (<p>{fileName}</p>) 
+                        : 
+                        (
+                        <div>
+                            <p>Drag and drop your file here or click to add</p>
+                            <p className="description">(Maximum file size is 100MB)</p>
+                        </div>
+                        )}
                         <button className="hidden" onClick={onButtonClick}>Upload File</button>
                     </div>
                 </label>
@@ -107,6 +119,17 @@ function FileManager() {
 
             <button id="file-submit-button" className="hidden"></button>
             <label id="file-submit-label" onClick={handleSubmit} htmlFor="file-submit-button">Submit File</label>
+
+            {fileSubmitted ? 
+            (
+            <div>
+                <p className="description">Your current user token is <b>{props.uuid}</b></p>
+                <p className="description">Save this token to access the submitted word data later</p>
+            </div>) : 
+            (
+                <div></div>
+            )}
+            
         </div>
     );
 }
