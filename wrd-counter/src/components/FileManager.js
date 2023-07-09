@@ -7,6 +7,16 @@ function FileManager(props) {
     const [fileName, setFileName] = React.useState("");
     const [file, setFile] = React.useState();
     const [fileSubmitted, setFileSubmitted] = React.useState(false);
+    const [ignoreStopWords, setIgnoreStopWords] = React.useState(false);
+    const [ignoreOutliers, setIgnoreOutliers] = React.useState(false);
+
+
+    class ProcessingFlags {
+        constructor(ignoreStopWords, ignoreOutliers) {
+            this.ignoreStopWords = ignoreStopWords;
+            this.ignoreOutliers = ignoreOutliers;
+        }
+    }
 
     const inputRef = React.useRef(null);
 
@@ -82,6 +92,7 @@ function FileManager(props) {
             e.preventDefault();
             let formData = new FormData();
             formData.append("file", file);
+            formData.append("processingFlags", JSON.stringify(new ProcessingFlags(ignoreStopWords, ignoreOutliers)));
             
             fetch("http://localhost:9000/upload/" + props.uuid, {
                 method: "POST",
@@ -95,12 +106,19 @@ function FileManager(props) {
         }
     }
 
+    const handleFlagChange = function(e) {
+        if (e.target.id == "stopwords-checkbox") {
+            setIgnoreStopWords(e.target.checked);
+        } else {
+            setIgnoreOutliers(e.target.checked);
+        }
+    }
+
     return (
         <div id="file-upload-wrapper">
             <div>
                 <div>Add the plain-text file you wish to process below</div>
             </div>
-
             <form id="file-upload-form" onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className={fileAdded ? "file-added" : (dragActive ? "drag-active" : "file-not-added")}>
                 <input ref={inputRef} className="hidden" id="file-input" type="file" onChange={handleChange} multiple={false} accept=".txt"/>
                 <label id="file-input-label" htmlFor="file-input">
@@ -118,20 +136,19 @@ function FileManager(props) {
                     </div>
                 </label>
             </form>
-
+            <div id="processing-flags-area">         
+                <div>
+                    <input id="stopwords-checkbox" type="checkbox" onChange={handleFlagChange}></input>
+                    <label htmlFor="stopwords-checkbox" className="description processing-checkbox">Filter out stop words</label>
+                </div>
+                <div>
+                    <input id="outliers-checkbox" type="checkbox" onChange={handleFlagChange}></input>
+                    <label htmlFor="outliers-checkbox" className="description processing-checkbox">Filter out rarely occurring words</label>
+                </div>
+            </div>
             <button id="file-submit-button" className="hidden"></button>
             <label id="file-submit-label" className="regular-button" onClick={handleSubmit} htmlFor="file-submit-button">Submit File</label>
 
-            {fileSubmitted ? 
-            (
-            <div>
-                <p className="description">Your current user token is <b>{props.uuid}</b></p>
-                <p className="description">Save this token to access the submitted word data later</p>
-            </div>) : 
-            (
-                <div></div>
-            )}
-            
         </div>
     );
 }
