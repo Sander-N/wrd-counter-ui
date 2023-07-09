@@ -12,6 +12,7 @@ import WordRequest from './components/WordRequest';
 
 //Import tools
 import { v4 as uuidv4 } from 'uuid';
+import WordListJson from './components/WordListJson';
 
 function App() {
     const [uuid, setUuid] = React.useState(uuidv4());
@@ -24,17 +25,17 @@ function App() {
             <img src={logo} className="app-logo" alt="logo" />
 
             <div id="main-area">
-                <div id="json-words" className="side-menu side-menu--left">
-                    <WordCloud uuid={uuid} cloudWords={cloudWords} wordsPopulated={wordsPopulated}/>
+                <div className={wordsPopulated ? "json-words side-menu side-menu--left" : "side-menu side-menu--left side-menu--closed"}>
+                    <WordListJson words={words} wordsPopulated={wordsPopulated}/>
                 </div>
                 <div className="file-area">
                     <div>
                         <h1>Welcome to wrdᶜ text processor!</h1>
                     </div>
                     <FileManager uuid={uuid}/>
-                    <WordRequest uuid={uuid} setWords={setWords} setWordsPopulated={setWordsPopulated} setCloudWords={setCloudWords}/>
+                    <WordRequest uuid={uuid} setWords={setWords} setWordsPopulated={setWordsPopulated} setCloudWords={setCloudWords} setUuid={setUuid}/>
                 </div>
-                <div id="wordcloud"  className="side-menu side-menu--right">
+                <div className={wordsPopulated ? "side-menu side-menu--right" : "side-menu side-menu--right side-menu--closed"}>
                     <WordCloud uuid={uuid} cloudWords={cloudWords} wordsPopulated={wordsPopulated}/>
                 </div>
             </div>

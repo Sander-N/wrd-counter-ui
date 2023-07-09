@@ -11,10 +11,14 @@ function WordCloud(props) {
         },
     }
 
+    const options = {
+        fontSizes: [20, 30, 60, 80]
+    }
+
     return (
-        <div>
-            {props.wordsPopulated ? <div><ReactWordcloud callbacks={callbacks} words={props.cloudWords}/></div> : <div>No words</div>}
-        </div>
+        <>
+            {props.wordsPopulated ? <><ReactWordcloud callbacks={callbacks} options={options} words={props.cloudWords}/></> : <></>}
+        </>
     );
 }
 

@@ -41,3 +41,42 @@
     align-items: center;
 }
 
+.regular-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 3rem;
+    width: 10rem;
+
+    background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #99d6ff, #309eff) border-box;
+    border: 4px solid transparent;   
+    border-radius: 1.2rem;
+
+    transition: border 0.3s;
+    cursor: pointer;
+}
+
+.regular-button:hover {
+    border: 4px solid #309eff;   
+}
+
+.disabled-button {
+    border: 4px solid gray;
+    pointer-events: none;
+}
+
+.text-field {
+    border: 2px solid #309eff;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.text-field:focus {
+    outline: none;
+}
+
+.text-field-false-input {
+    border: 2px solid #850000;
+}

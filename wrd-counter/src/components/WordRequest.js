@@ -1,6 +1,11 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 
 function WordRequest(props) {
+    const [hasPreviousUuid, setHasPreviousUuid] = React.useState(false);
+    const [validUuid, setValidUuid] = React.useState(true);
+
     //Class for converting word objects into objects suitable for the wordcloud
     class CloudWord {
         constructor(text, value) {
@@ -38,10 +43,43 @@ function WordRequest(props) {
         });
     }
 
+    const handleCheckboxChange = function(e) {
+        setHasPreviousUuid(!hasPreviousUuid);
+
+    }
+
+    const handleUuidChange = function(e) {
+        console.log(e.target.value);
+        //Validate uuid
+        let regex = new RegExp('^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')
+        if(regex.test(e.target.value)) {
+            setValidUuid(true);
+            props.setUuid(e.target.value);
+        } else setValidUuid(false);
+    }
+
+    const handleGenerateUuid = function(e) {
+        console.log("Old uuid: " + props.uuid);
+        let uuidField = document.getElementById("uuid-field");
+        let newUuid = uuidv4();
+        uuidField.value = newUuid;
+        props.setUuid(newUuid);
+        console.log("New uuid: " + newUuid);
+        setValidUuid(true);
+    }
+
     return (
-        <div>
-            <button onClick={handleRequest}>Get Results</button>
-        </div>
+        <>
+            <div id="existing-uuid-check">
+                <p className="description">Save this user token to access the results later or enter your existing user token</p>
+                <button id="generate-uuid-button" className="hidden"></button>
+                <label htmlFor="generate-uuid-button" onClick={handleGenerateUuid}>⟳ </label>
+                <input id="uuid-field" className={validUuid ? "text-field" : " text-field text-field-false-input"} type="text" onInput={handleUuidChange} defaultValue={props.uuid}></input>
+                {validUuid ? <label> ✔</label> : <label> ✖</label>}
+            </div>
+            <button id="get-results-button" className="hidden">Get Results</button>
+            <label id="get-results-label" className={validUuid ? "regular-button" : "regular-button disabled-button"} onClick={handleRequest} htmlFor="get-results-button">Get Results</label>
+        </>
     );
 }
 

@@ -56,6 +56,8 @@ function FileManager(props) {
             if(e.target.files[0] > 1) {
                 console.log("Tried to add more than one file");
                 setFileAdded(false);
+            } else if(e.target.files[0].size > 10e7) {
+                console.log("File too big");
             } else {
                 let file = e.target.files[0];
                 if (file.type === "text/plain") {
@@ -118,7 +120,7 @@ function FileManager(props) {
             </form>
 
             <button id="file-submit-button" className="hidden"></button>
-            <label id="file-submit-label" onClick={handleSubmit} htmlFor="file-submit-button">Submit File</label>
+            <label id="file-submit-label" className="regular-button" onClick={handleSubmit} htmlFor="file-submit-button">Submit File</label>
 
             {fileSubmitted ? 
             (
