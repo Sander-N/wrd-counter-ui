@@ -5,7 +5,7 @@ services:
   ui:
     container_name: ui
     build:
-      context: https://github.com/Sander-N/wrd-counter-ui.git:wrd-counter-ui
+      context: https://github.com/Sander-N/wrd-counter-ui.git#main:wrd-counter
       dockerfile: Dockerfile
     volumes:
       - '.:/wrd-counter'
