@@ -7,7 +7,7 @@ import 'tippy.js/animations/scale.css';
 function WordCloud(props) {
     const callbacks = {
         getWordColor: word => { 
-           return word.value % 2 == 0 ? "#309eff" : "#99d6ff";
+           return word.value % 2 === 0 ? "#309eff" : "#99d6ff";
         },
     }
 
