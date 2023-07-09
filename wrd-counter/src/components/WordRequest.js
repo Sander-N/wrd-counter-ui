@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 function WordRequest(props) {
-    const [hasPreviousUuid, setHasPreviousUuid] = React.useState(false);
     const [validUuid, setValidUuid] = React.useState(true);
 
     //Class for converting word objects into objects suitable for the wordcloud
@@ -43,11 +42,6 @@ function WordRequest(props) {
         });
     }
 
-    const handleCheckboxChange = function(e) {
-        setHasPreviousUuid(!hasPreviousUuid);
-
-    }
-
     const handleUuidChange = function(e) {
         console.log(e.target.value);
         //Validate uuid
@@ -73,7 +67,7 @@ function WordRequest(props) {
             <div id="existing-uuid-check">
                 <p className="description">Save this user token to access the results later or enter your existing user token</p>
                 <button id="generate-uuid-button" className="hidden"></button>
-                <label htmlFor="generate-uuid-button" onClick={handleGenerateUuid}>⟳ </label>
+                <label htmlFor="generate-uuid-button" className="pointer-active" onClick={handleGenerateUuid}>⟳ </label>
                 <input id="uuid-field" className={validUuid ? "text-field" : " text-field text-field-false-input"} type="text" onInput={handleUuidChange} defaultValue={props.uuid}></input>
                 {validUuid ? <label> ✔</label> : <label> ✖</label>}
             </div>
