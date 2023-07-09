@@ -6,7 +6,6 @@ function FileManager(props) {
     const [fileAdded, setFileAdded] = React.useState(false);
     const [fileName, setFileName] = React.useState("");
     const [file, setFile] = React.useState();
-    const [fileSubmitted, setFileSubmitted] = React.useState(false);
     const [ignoreStopWords, setIgnoreStopWords] = React.useState(false);
     const [ignoreOutliers, setIgnoreOutliers] = React.useState(false);
 
@@ -101,13 +100,11 @@ function FileManager(props) {
             .then((res) => console.log(res))
             .then((data) => console.log(data))
             .catch((err) => console.error(err));
-
-            setFileSubmitted(true);
         }
     }
 
     const handleFlagChange = function(e) {
-        if (e.target.id == "stopwords-checkbox") {
+        if (e.target.id === "stopwords-checkbox") {
             setIgnoreStopWords(e.target.checked);
         } else {
             setIgnoreOutliers(e.target.checked);
